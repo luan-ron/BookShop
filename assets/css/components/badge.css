@@ -1,0 +1,66 @@
+/* BADGE — Nhãn trạng thái */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xxs) var(--spacing-sm);
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.4;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.badge--primary {
+    background-color: rgba(0, 169, 242, 0.12);
+    color: var(--color-primary);
+}
+
+.badge--secondary {
+    background-color: rgba(249, 178, 52, 0.16);
+    color: var(--color-secondary);
+}
+
+.badge--accent {
+    background-color: rgba(0, 169, 242, 0.14);
+    color: rgb(0, 135, 195);
+}
+
+.badge--success {
+    background-color: rgba(16, 185, 129, 0.12);
+    color: #047857;
+}
+
+.badge--error {
+    background-color: rgba(239, 68, 68, 0.12);
+    color: var(--color-error);
+}
+
+.badge--danger {
+    background-color: rgba(255, 68, 68, 0.12);
+    color: var(--color-error);
+}
+
+.badge--warning {
+    background-color: rgba(245, 158, 11, 0.16);
+    color: #92400e;
+}
+
+.badge--info {
+    background-color: rgba(33, 150, 243, 0.12);
+    color: #1565c0;
+}
+
+.badge--outline {
+    background-color: transparent;
+    border: var(--border-width) solid var(--color-border);
+    color: var(--color-text-light);
+}
+
+.badge--dot::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor;
+}

@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+
+    --navbar-bg: #ffffff;
+    --navbar-text: #172033;
+    --navbar-muted: #64748b;
+    --navbar-border: #dce8ef;
+    --navbar-icon-bg: #f4f9fc;
+    --navbar-focus: rgb(0, 169, 242);
+    --navbar-hover: rgb(0, 135, 195);
+
+    --footer-bg: #111827;
+    --footer-text: #cbd5e1;
+    --footer-muted: #94a3b8;
+    --footer-border: rgba(255, 255, 255, 0.12);
+    --footer-link-hover: #818cf8;
+
+    --color-primary-dark: #172033;
+    /* Dark text và nền footer */
+    --color-primary: rgb(0, 169, 242);
+    /* Xanh thương hiệu */
+    --color-primary-hover: rgb(0, 135, 195);
+    /* Xanh hover */
+    --color-secondary: #f9b234;
+    /* Vàng hỗ trợ */
+    --color-accent: rgb(0, 169, 242);
+    /* Xanh nhấn */
+    --color-accent-dark: rgb(0, 135, 195);
+    /* Xanh hover */
+    --color-background: #f4f9fc;
+    /* Nền sáng tổng thể */
+    --color-surface: #ffffff;
+    /* Nền thẻ, khu vực nội dung */
+    --color-border: #dce8ef;
+    /* Viền trung tính */
+    --color-text: #172033;
+    /* Chữ chính */
+    --color-text-light: #64748b;
+    /* Chữ phụ, mô tả */
+    --color-success: #10b981;
+    /* Thành công */
+    --color-error: #ef4444;
+    /* Lỗi, cảnh báo đỏ */
+    --color-warning: #f59e0b;
+    /* Cảnh báo vàng */
+    --color-info: rgb(0, 169, 242);
+    /* Thông tin, nhắc nhở */
+
+
+    /* Typography - Biến chữ */
+    --font-family-base: 'Plus Jakarta Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    /* Font chữ chính cho toàn trang */
+    --font-size-base: 16px;
+    /* Cỡ chữ mặc định */
+    --font-size-xxs: 0.733rem;
+    /* 11px - Chú thích siêu nhỏ */
+    --font-size-sm: 0.866rem;
+    /* 13px - Cỡ chữ nhỏ, chú thích */
+    --font-size-md: 1rem;
+    /* 15px - Cỡ chữ trung bình, nội dung */
+    --font-size-lg: 1.2rem;
+    /* 18px - Cỡ chữ lớn, tiêu đề phụ */
+    --font-size-xl: 1.466rem;
+    /* 22px - Cỡ chữ lớn cho tiêu đề chính */
+    --font-size-xxl: 1.866rem;
+    /* 28px - Cỡ chữ rất lớn, banner */
+    --font-size-3xl: 2.4rem;
+    /* 36px - Cỡ chữ cực lớn, hero banner */
+    --font-weight-normal: 400;
+    /* Độ đậm chữ thường */
+    --font-weight-medium: 500;
+    /* Độ đậm chữ vừa */
+    --font-weight-bold: 600;
+    /* Độ đậm chữ nổi bật */
+    --font-weight-extra-bold: 700;
+    /* Độ đậm chữ tiêu đề */
+    --line-height-base: 1.6;
+    /* Độ cao dòng mặc định */
+    /* Độ cao dòng mặc định */
+
+
+    /* Spacing - Khoảng cách */
+    --spacing-xxs: 2px;
+    /* Khoảng cách siêu nhỏ, viền hoặc icon nhỏ */
+    --spacing-xs: 4px;
+    /* Khoảng cách rất nhỏ, giữa các icon hoặc chữ nhỏ */
+    --spacing-sm: 8px;
+    /* Khoảng cách nhỏ, giữa các nút hoặc mục nhỏ */
+    --spacing-md: 16px;
+    /* Khoảng cách trung bình, giữa các phần nội dung */
+    --spacing-lg: 24px;
+    /* Khoảng cách lớn, giữa các section */
+    --spacing-xl: 40px;
+    /* Khoảng cách rất lớn, lề ngoài cùng */
+    --spacing-xxl: 64px;
+    /* Khoảng cách cực lớn, banner hoặc phân cách lớn */
+
+
+    /* Border & Shadow - Viền & Đổ bóng */
+    --border-radius-sm: 6px;
+    /* Bo góc nhỏ cho input, nút nhỏ */
+    --border-radius: 10px;
+    /* Bo góc mặc định cho thẻ, card */
+    --border-radius-lg: 16px;
+    /* Bo góc lớn cho banner, modal */
+    --border-width: 1px;
+    /* Độ dày viền mặc định */
+    --box-shadow-sm: 0 1px 3px rgba(44, 62, 80, 0.08);
+    /* Đổ bóng nhẹ cho nút, input */
+    --box-shadow-md: 0 4px 12px rgba(44, 62, 80, 0.12);
+    /* Đổ bóng trung bình cho card, popup nhỏ */
+    --box-shadow-lg: 0 8px 24px rgba(44, 62, 80, 0.16);
+    /* Đổ bóng lớn cho modal, banner */
+
+
+    /* Transition - Hiệu ứng chuyển động */
+    --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Hiệu ứng nhanh cho hover, click */
+    --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Hiệu ứng mặc định cho chuyển trạng thái */
+    --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Hiệu ứng chậm cho modal, overlay */
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    color: var(--color-text);
+    background-color: var(--color-background);
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-base);
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+.order-container h1,
+.order-container h2,
+.order-container h3 {
+    font-family: "Times New Roman", Times, serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}

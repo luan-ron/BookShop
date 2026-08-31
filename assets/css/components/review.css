@@ -1,0 +1,368 @@
+/* Assets/css/components/review.css */
+
+.reviews-section {
+    margin-top: var(--spacing-xl);
+    background-color: var(--color-surface);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: var(--box-shadow-sm);
+}
+
+.reviews-section-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+    margin: 0 0 var(--spacing-lg) 0;
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--color-background);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Thống kê đánh giá tổng quan */
+.rating-summary-box {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background-color: var(--color-background);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-xl);
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .rating-summary-box {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md);
+    }
+}
+
+.rating-average-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--color-border);
+    padding-right: var(--spacing-lg);
+}
+
+@media (max-width: 768px) {
+    .rating-average-card {
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+        padding-right: 0;
+        padding-bottom: var(--spacing-md);
+    }
+}
+
+.rating-average-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    line-height: 1.1;
+}
+
+.rating-average-stars {
+    color: var(--color-secondary);
+    font-size: 1.2rem;
+    margin: var(--spacing-xxs) 0;
+}
+
+.rating-average-count {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+}
+
+/* Biểu đồ phần trăm sao */
+.rating-bars-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.rating-bar-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+}
+
+.rating-bar-label {
+    width: 60px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.rating-bar-track {
+    flex: 1;
+    height: 8px;
+    background-color: var(--color-border);
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+}
+
+.rating-bar-fill {
+    height: 100%;
+    background-color: var(--color-secondary);
+    border-radius: var(--border-radius-sm);
+    width: var(--rating-percent, 0%);
+    transition: width 0.6s ease;
+}
+
+.rating-bar-percent {
+    width: 40px;
+    text-align: right;
+    color: var(--color-text-light);
+}
+
+/* Danh sách đánh giá */
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.review-item {
+    display: flex;
+    gap: var(--spacing-md);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.review-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.review-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: var(--color-primary-dark);
+    color: var(--color-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--font-weight-bold);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.review-body {
+    flex: 1;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-xxs);
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+}
+
+.review-user-info {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.review-username {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+    font-size: var(--font-size-md);
+}
+
+.review-verified-badge {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--color-success);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: var(--border-radius-sm);
+    font-weight: var(--font-weight-medium);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.review-date {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-light);
+}
+
+.review-stars {
+    color: var(--color-secondary);
+    font-size: 0.9rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.review-star-empty {
+    color: var(--color-border);
+}
+
+.review-comment {
+    color: var(--color-text);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-base);
+    white-space: pre-line;
+}
+
+/* Biểu mẫu gửi đánh giá */
+.review-form-container {
+    background-color: var(--color-background);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+}
+
+.review-form-title {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+    margin-top: 0;
+    margin-bottom: var(--spacing-md);
+}
+
+/* Chọn số sao tương tác */
+.star-selector-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.star-selector-label {
+    display: block;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+}
+
+.rating-input {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: var(--spacing-xs);
+}
+
+.rating-input input {
+    display: none;
+}
+
+.rating-input label {
+    font-size: 1.75rem;
+    color: var(--color-border);
+    cursor: pointer;
+    transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.rating-input label:hover,
+.rating-input label:hover ~ label,
+.rating-input input:checked ~ label {
+    color: var(--color-secondary);
+}
+
+.rating-input label:active {
+    transform: scale(0.9);
+}
+
+/* Đánh giá phụ dưới tên sách */
+.product-rating-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+.product-rating-stars {
+    color: var(--color-secondary);
+    display: inline-flex;
+    gap: 2px;
+}
+
+.product-rating-average {
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+}
+
+.product-rating-count {
+    color: var(--color-text-light);
+}
+
+/* Khi không có bình luận nào */
+.no-reviews-placeholder {
+    text-align: center;
+    padding: var(--spacing-xl) var(--spacing-md);
+    color: var(--color-text-light);
+    font-size: var(--font-size-md);
+}
+
+.no-reviews-placeholder i {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-border);
+}
+
+/* Review feedback and form details */
+.review-alert {
+    margin: 0 0 var(--spacing-lg);
+}
+
+.review-comment-label {
+    margin-bottom: var(--spacing-xs);
+}
+
+.review-comment-input {
+    min-height: 120px;
+}
+
+.review-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: var(--spacing-md);
+}
+
+.review-submit {
+    min-width: 140px;
+}
+
+.review-login-prompt {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    color: var(--color-text-light);
+}
+
+.review-login-prompt p {
+    margin: 0;
+    flex: 1 1 280px;
+}
+
+.review-login-prompt .btn {
+    flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+    .review-form-actions,
+    .review-login-prompt {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .review-submit,
+    .review-login-prompt .btn {
+        width: 100%;
+    }
+}

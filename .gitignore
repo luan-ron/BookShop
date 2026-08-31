@@ -1,0 +1,31 @@
+# Environment variables (chứa thông tin nhạy cảm)
+.env
+.env.*
+!.env.example
+
+# Database config (chứa password - KHÔNG đẩy lên git)
+includes/config.php
+
+# User uploaded images
+assets/images/uploads/*
+!assets/images/uploads/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Log
+*.log
+error_log
+
+vendor/*
+!vendor/PHPMailer/
+!vendor/PHPMailer/**
+
+cache/
+tmp/
+storage/logs/

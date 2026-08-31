@@ -1,0 +1,150 @@
+/* BUTTON — Nút bấm */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.4;
+  text-decoration: none;
+  white-space: nowrap;
+  border: var(--border-width) solid transparent;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+  min-height: 42px;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.btn:disabled,
+.btn.is-disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn--primary {
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.btn--primary:active {
+  background-color: var(--color-primary-hover);
+  transform: translateY(1px);
+}
+
+.btn--secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-surface);
+}
+
+.btn--secondary:hover {
+  filter: brightness(0.95);
+}
+
+.btn--accent {
+  background-color: var(--color-accent);
+  color: var(--color-surface);
+}
+
+.btn--accent:hover {
+  background-color: var(--color-accent-dark);
+}
+
+.btn--outline {
+  background-color: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn--outline:hover {
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+}
+
+.btn--ghost {
+  background-color: transparent;
+  color: var(--color-primary);
+}
+
+.btn--ghost:hover {
+  background-color: rgba(0, 169, 242, 0.08);
+}
+
+.btn--danger {
+  background-color: var(--color-error);
+  color: var(--color-surface);
+}
+
+.btn--danger:hover {
+  filter: brightness(0.92);
+}
+
+.btn--danger:active,
+.btn--secondary:active,
+.btn--accent:active {
+  transform: translateY(1px);
+}
+
+.btn--sm {
+  min-height: 36px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: 0.8125rem;
+}
+
+.btn--lg {
+  min-height: 48px;
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.btn--block {
+  display: flex;
+  width: 100%;
+}
+
+.btn--icon {
+  width: 42px;
+  min-height: 42px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.btn-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.auth-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  width: 100%;
+  margin-top: var(--spacing-md);
+}
+
+.auth-actions .btn {
+  display: flex;
+  width: 100%;
+  min-height: 2.75rem;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+}

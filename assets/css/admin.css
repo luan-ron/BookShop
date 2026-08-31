@@ -1,0 +1,252 @@
+/* BOOKSHOP ADMIN THEME — scoped to the admin shell only */
+.app-layout {
+  --admin-primary: rgb(0, 169, 242);
+  --admin-primary-hover: rgb(0, 135, 195);
+  --admin-navy: #172033;
+  --admin-background: #f4f9fc;
+  --admin-surface: #ffffff;
+  --admin-border: #dce8ef;
+  --admin-text: #172033;
+  --admin-muted: #64748b;
+  --admin-secondary: #f9b234;
+  --admin-success: #10b981;
+  --admin-warning: #f59e0b;
+  --admin-danger: #ef4444;
+
+  color: var(--admin-text);
+  background: var(--admin-background);
+  font-family: "Times New Roman", Times, serif;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-align: left;
+  text-justify: none;
+  white-space: normal;
+  text-rendering: auto;
+  font-kerning: normal;
+  font-feature-settings: normal;
+  grid-template-columns: 272px minmax(0, 1fr);
+}
+
+.app-layout button,
+.app-layout input,
+.app-layout select,
+.app-layout textarea {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.app-layout .admin-sidebar {
+  width: 272px;
+  color: #fff;
+  background: var(--admin-navy);
+  box-shadow: 2px 0 14px rgba(23, 32, 51, .16);
+}
+
+.app-layout .admin-sidebar__brand,
+.app-layout .admin-sidebar__link,
+.app-layout .admin-sidebar__close {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.app-layout .admin-sidebar__brand {
+  color: #fff;
+}
+
+.app-layout .admin-sidebar__link {
+  color: rgba(255, 255, 255, .84);
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-align: left;
+  text-justify: none;
+}
+
+.app-layout .admin-sidebar__menu,
+.app-layout .admin-sidebar__footer {
+  gap: var(--spacing-sm);
+}
+
+.app-layout .admin-sidebar__link:hover,
+.app-layout .admin-sidebar__link:focus-visible {
+  color: #fff;
+  background: rgba(0, 169, 242, .18);
+}
+
+.app-layout .admin-sidebar__link.is-active {
+  color: #fff;
+  background: var(--admin-primary);
+  box-shadow: 0 4px 12px rgba(0, 169, 242, .22);
+}
+
+.app-layout .admin-sidebar__link--danger:hover,
+.app-layout .admin-sidebar__link--danger:focus-visible {
+  background: rgba(239, 68, 68, .2);
+}
+
+.app-layout .admin-topbar {
+  background: var(--admin-surface);
+  border-bottom-color: var(--admin-border);
+}
+
+.app-layout .admin-topbar__title,
+.app-layout .page-header h1,
+.app-layout .page-header p,
+.app-layout .card,
+.app-layout .card__title,
+.app-layout .card__subtitle,
+.app-layout .admin-form-card__title,
+.app-layout .admin-form-card__section-title,
+.app-layout .admin-table-card__title,
+.app-layout .table,
+.app-layout .form-label,
+.app-layout .form-text,
+.app-layout .form-error,
+.app-layout .badge,
+.app-layout .alert {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.app-layout .admin-topbar__title,
+.app-layout .page-header h1,
+.app-layout .admin-form-card__title,
+.app-layout .admin-table-card__title,
+.app-layout .card__title {
+  color: var(--admin-text);
+}
+
+.app-layout .page-header p,
+.app-layout .page-header span,
+.app-layout .card__subtitle,
+.app-layout .card__text,
+.app-layout .form-text,
+.app-layout .admin-table-empty,
+.app-layout .chart-empty-state {
+  color: var(--admin-muted);
+}
+
+.app-layout .card,
+.app-layout .admin-table-card {
+  background: var(--admin-surface);
+  border-color: var(--admin-border);
+  box-shadow: 0 2px 10px rgba(23, 32, 51, .07);
+}
+
+.app-layout .card:hover,
+.app-layout .admin-table-card:hover {
+  box-shadow: 0 5px 16px rgba(23, 32, 51, .1);
+}
+
+.app-layout .stat-card .card__title {
+  color: var(--admin-primary);
+}
+
+.app-layout .stat-card .stat-card__icon {
+  color: var(--admin-primary);
+  background: rgba(0, 169, 242, .12);
+}
+
+.app-layout .form-control {
+  color: var(--admin-text);
+  background-color: var(--admin-surface);
+  border-color: var(--admin-border);
+  font-family: "Times New Roman", Times, serif;
+}
+
+.app-layout .form-control::placeholder {
+  color: var(--admin-muted);
+}
+
+.app-layout .form-control:focus {
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 3px rgba(0, 169, 242, .18);
+}
+
+.app-layout .form-control[readonly],
+.app-layout .form-control:disabled {
+  background-color: var(--admin-background);
+}
+
+.app-layout .table {
+  color: var(--admin-text);
+  background-color: var(--admin-surface);
+}
+
+.app-layout .table thead {
+  background-color: var(--admin-navy);
+}
+
+.app-layout .table th {
+  color: #fff;
+  border-bottom-color: var(--admin-navy);
+}
+
+.app-layout .table td {
+  color: var(--admin-text);
+  border-bottom-color: var(--admin-border);
+}
+
+.app-layout .table tbody tr:hover,
+.app-layout .table--striped tbody tr:nth-child(even):hover {
+  background-color: rgba(0, 169, 242, .06);
+}
+
+.app-layout .table--striped tbody tr:nth-child(even) {
+  background-color: var(--admin-background);
+}
+
+.app-layout .btn {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.app-layout .btn--primary,
+.app-layout .btn--accent {
+  background-color: var(--admin-primary);
+}
+
+.app-layout .btn--primary:hover,
+.app-layout .btn--primary:active,
+.app-layout .btn--accent:hover {
+  background-color: var(--admin-primary-hover);
+}
+
+.app-layout .btn--secondary {
+  background-color: var(--admin-secondary);
+}
+
+.app-layout .btn--danger {
+  background-color: var(--admin-danger);
+}
+
+.app-layout .btn--outline,
+.app-layout .btn--ghost {
+  color: var(--admin-primary);
+}
+
+.app-layout .btn--outline {
+  border-color: var(--admin-primary);
+}
+
+.app-layout .btn--outline:hover {
+  color: #fff;
+  background-color: var(--admin-primary);
+}
+
+.app-layout .admin-menu-toggle {
+  color: var(--admin-primary);
+  border-color: var(--admin-border);
+  background: var(--admin-surface);
+}
+
+.app-layout .admin-sidebar-overlay {
+  background: rgba(23, 32, 51, .58);
+}
+
+@media (max-width: 768px) {
+  .app-layout .admin-sidebar {
+    box-shadow: 5px 0 18px rgba(23, 32, 51, .22);
+  }
+}
+
+@media (max-width: 360px) {
+  .app-layout .admin-sidebar {
+    width: min(272px, 88vw);
+  }
+}
