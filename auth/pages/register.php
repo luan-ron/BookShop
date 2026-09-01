@@ -70,22 +70,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 24px;
             font-family: var(--font-family-base);
-            background: var(--color-background) url('/BookShop/assets/images/uploads/background_login.jpg') no-repeat center center fixed;
+            background:
+                linear-gradient(135deg, rgba(0, 169, 242, 0.18), rgba(15, 23, 42, 0.45)),
+                url('/BookShop/assets/images/uploads/background_login.jpg') no-repeat center center fixed;
             background-size: cover;
             box-sizing: border-box;
         }
 
         .auth-card {
             width: 100%;
-            max-width: 420px;
-            padding: 24px;
+            max-width: 430px;
+            padding: 34px;
             box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            box-shadow: 0 20px 55px rgba(15, 23, 42, 0.22);
+            backdrop-filter: blur(10px);
         }
 
         .auth-card h1 {
-            margin: 0 0 8px;
-            font-size: 1.4rem;
+            margin: 0 0 26px;
+            font-size: 30px;
+            font-weight: 800;
             color: var(--color-primary);
             text-align: center
         }
@@ -93,17 +102,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .auth-card p {
             margin: 0 0 16px;
             text-align: center;
-            color: var(--color-text-light)
+            color: var(--color-text-light);
+            font-size: 14px;
         }
 
         .form-group {
-            margin-bottom: 16px
+            margin-bottom: 18px
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
+            margin-bottom: 7px;
+            font-size: 14px;
+            font-weight: 600;
             color: var(--color-text);
         }
 
@@ -111,12 +122,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         input[type="email"],
         input[type="password"] {
             width: 100%;
-            padding: 12px;
+            min-height: 46px;
+            padding: 11px 14px;
             box-sizing: border-box;
             border: var(--border-width) solid var(--color-border);
-            border-radius: var(--border-radius-sm);
+            border-radius: 10px;
             font-family: inherit;
-            font-size: var(--font-size-md);
+            font-size: 15px;
             transition: border-color 0.2s ease;
         }
 
@@ -125,40 +137,76 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         input[type="password"]:focus {
             outline: none;
             border-color: var(--color-primary);
-            box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.1);
+            box-shadow: 0 0 0 4px rgba(0, 169, 242, 0.12);
+            transform: translateY(-1px);
         }
 
         .actions {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
             align-items: stretch;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 22px;
         }
 
         .actions .btn,
         .actions a.btn {
             width: 100%;
+            min-height: 46px;
             box-sizing: border-box;
-            padding: 12px 20px;
+            border-radius: 10px;
+        }
+
+        .actions button[type="submit"] {
+            background: var(--color-primary) !important;
+            color: #ffffff !important;
+            border: none !important;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .actions button[type="submit"]:hover {
+            background: var(--color-primary-hover) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(0, 169, 242, 0.25);
         }
 
         .auth-footer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 4px;
             text-align: center;
-            margin-top: 20px;
-            padding-top: 16px;
-            border-top: var(--border-width) solid var(--color-border);
+            margin-top: 24px;
+            padding-top: 18px;
+            border-top: 1px solid #e2e8f0;
         }
 
         .auth-footer a {
             color: var(--color-primary);
             text-decoration: none;
-            font-size: var(--font-size-sm);
+            font-size: 13px;
         }
 
         .auth-footer a:hover {
             text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 16px;
+            }
+
+            .auth-card {
+                padding: 24px;
+            }
+
+            .auth-card h1 {
+                margin-bottom: 22px;
+                font-size: 26px;
+            }
         }
     </style>
 </head>
@@ -221,15 +269,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="actions">
                 <button type="submit" class="btn btn-primary">Đăng ký</button>
-                <a class="btn btn-secondary" href="/BookShop/auth/pages/login.php">Quay lại đăng nhập</a>
             </div>
         </form>
 
         <div class="auth-footer">
-            <p style="margin: 0 0 8px; color: var(--color-text-light); font-size: var(--font-size-sm);">
-                Đã có tài khoản?
-            </p>
-            <a href="/BookShop/auth/pages/login.php">Đăng nhập ngay</a>
+            <span>Đã có tài khoản?</span>
+            <a href="/BookShop/auth/pages/login.php">Đăng nhập</a>
         </div>
     </div>
     <script>
