@@ -155,16 +155,16 @@ include '../includes/header.php';
     
     <h1 class="about-title">Về Chúng Tôi</h1>
     <div class="about-date">02/09/2026</div> <div class="about-slogan-box">
-        <h2>BookShop - HÀNH TRÌNH VƯƠN TẦM TRI THỨC</h2>
+        <h2>BookShop - KHÁM PHÁ NHỮNG CUỐN SÁCH DÀNH CHO BẠN</h2>
         <p>Better Knowledge, Better Success</p>
     </div>
 
     <div class="about-text">
-        <p><strong>BookShop</strong> được biết đến là một trong những thương hiệu hàng đầu về dòng sách quản trị kinh doanh, phát triển kỹ năng, tài chính, đầu tư... với các cuốn sách hướng dẫn khởi nghiệp, các bài học, phương pháp và kinh nghiệm quản trị của các chuyên gia, và các tập đoàn nổi tiếng trên thế giới. Sau nhiều năm hình thành và phát triển, hệ thống đã từng bước khẳng định tên tuổi của mình, đặc biệt đối với các thế hệ doanh nhân, nhà quản lý và những người trẻ luôn khát khao xây dựng sự nghiệp thành công.</p>
+        <p><strong>BookShop</strong> mang đến những lựa chọn sách đa dạng cho nhiều nhu cầu đọc: từ văn học Việt Nam, văn học nước ngoài, tiểu thuyết và các tác phẩm kinh điển, đến tâm lý - kỹ năng sống, kinh tế, thiếu nhi cùng những chủ đề khám phá khác.</p>
         
-        <p>Từ một dự án nhỏ, <strong>BookShop</strong> hiện đã phát triển mở rộng thành thương hiệu phân phối sách quy mô lớn. Không chỉ tập trung vào các dòng sách quản trị kinh doanh & kỹ năng, chúng tôi còn mở rộng sang các mảng tinh hoa văn hóa, lịch sử, khoa học công nghệ, sách thiếu nhi và văn học kinh điển.</p>
+        <p>Trong catalog hiện tại, bạn có thể tìm thấy những câu chuyện và góc nhìn phong phú qua <em>Cây Cam Ngọt Của Tôi</em>, <em>Nhà Giả Kim (Tái Bản 2020)</em>, <em>Thao Túng Tâm Lý</em>, <em>Hoàng Tử Bé (Tái Bản 2019)</em> và nhiều tựa sách thuộc các thể loại khác nhau.</p>
 
-        <p>Bên cạnh việc sở hữu hàng ngàn đầu sách chọn lọc, BookShop còn thành công tiếp cận độc giả với các ấn phẩm in đậm dấu ấn trong tâm trí người đọc, điển hình như: <em>Đắc Nhân Tâm, Cha Giàu Cha Nghèo, Tư Duy Nhanh Và Chậm, Tiểu sử Steve Jobs, Chiến Lược Đại Dương Xanh, Nhà Giả Kim...</em> Chúng tôi luôn nỗ lực mang đến mức giá tốt nhất, dịch vụ giao hàng nhanh chóng và trải nghiệm mua sắm trọn vẹn nhất cho mọi khách hàng.</p>
+        <p>Từ <em>Những Người Khốn Khổ (Boxet 2 Tập)</em>, <em>Dám Bị Ghét</em> đến <em>Xứ Cát</em>, mỗi tựa sách tại BookShop mở ra một hành trình riêng để đọc, suy ngẫm và khám phá. Chúng tôi hướng đến trải nghiệm mua sắm thuận tiện, thông tin rõ ràng và những lựa chọn phù hợp cho từng độc giả.</p>
     </div>
 
     <section class="why-bookshop-section" aria-labelledby="why-bookshop-title">
