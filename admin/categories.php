@@ -77,7 +77,7 @@ if ($res) {
   <div class="app-layout">
     <?php adminSidebar(); ?>
     <main class="page-content">
-      <header class="page-header"><div><h1>Quản lý danh mục</h1><p>Thêm, sửa, xóa danh mục sách</p></div></header>
+      <header class="page-header"><div><h1>Quản lý danh mục</h1></div></header>
       <form method="post" class="card admin-form-card">
         <input type="hidden" name="csrf_token" value="<?= h(adminCsrfToken()) ?>">
         <input type="hidden" name="action" value="save">

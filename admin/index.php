@@ -89,7 +89,6 @@ if ($resCatStats) {
       <header class="page-header">
         <div>
           <h1>Dashboard & Thống kê</h1>
-          <p>Tổng quan hoạt động của cửa hàng sách</p>
         </div>
       </header>
 

@@ -86,7 +86,7 @@ function getCouponStatus($expiredDate) {
   <div class="app-layout">
     <?php adminSidebar(); ?>
     <main class="page-content">
-      <header class="page-header"><div><h1>Quản lý mã giảm giá</h1><p>Thêm, sửa, xóa mã giảm giá</p></div></header>
+      <header class="page-header"><div><h1>Quản lý mã giảm giá</h1></div></header>
       
       <form method="post" class="card admin-form-card">
         <input type="hidden" name="csrf_token" value="<?= h(adminCsrfToken()) ?>">

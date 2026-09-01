@@ -211,7 +211,6 @@ if ($res) {
       <header class="page-header">
         <div>
           <h1>Quản lý đơn hàng</h1>
-          <p>Xem chi tiết đơn hàng và cập nhật trạng thái duyệt đơn</p>
         </div>
       </header>
 

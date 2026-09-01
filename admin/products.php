@@ -223,7 +223,7 @@ if ($resProds) {
     <?php adminSidebar(); ?>
 
     <main class="page-content">
-      <header class="page-header"><div><h1>Quản lý sản phẩm</h1><p>Thêm, sửa, xóa sản phẩm sách</p></div></header>
+      <header class="page-header"><div><h1>Quản lý sản phẩm</h1></div></header>
 
       <form method="post" class="card admin-form-card" enctype="multipart/form-data">
         <input type="hidden" name="csrf_token" value="<?= h(adminCsrfToken()) ?>">

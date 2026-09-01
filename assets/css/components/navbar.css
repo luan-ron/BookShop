@@ -59,7 +59,7 @@
   height: 44px;
   min-height: 44px;
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: 18px;
   overflow: hidden;
   background: var(--navbar-bg);
 }
@@ -372,7 +372,7 @@
 .top-bar-menu a {
   color: var(--color-surface);
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: var(--font-weight-bold);
   font-family: "Times New Roman", Times, serif;
   padding: 14px 0;
