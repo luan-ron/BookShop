@@ -1,6 +1,6 @@
 # BookShop
 
-BookShop là website bán sách chạy trên PHP và MySQL/MariaDB. Ứng dụng gồm storefront cho khách hàng, quy trình giỏ hàng–đặt hàng–thanh toán và khu vực quản trị cho tài khoản có vai trò `admin`.
+BookShop là website bán sách chạy trên PHP và Oracle MySQL 8.4.11. Ứng dụng gồm storefront cho khách hàng, quy trình giỏ hàng–đặt hàng–thanh toán và khu vực quản trị cho tài khoản có vai trò `admin`.
 
 ## Tính năng hiện có
 
@@ -18,19 +18,65 @@ Các liên kết “Tin tức” và “Review sách” trên header hiện là 
 ## Công nghệ
 
 - PHP 7.4+ với mysqli và prepared statements.
-- MySQL hoặc MariaDB, charset `utf8mb4`.
+- Oracle MySQL 8.4.11, charset `utf8mb4`.
 - HTML/CSS và JavaScript thuần; helper `url()`/`asset()` dùng cho URL local `/BookShop/`.
 - Chart.js, Font Awesome và Toastify được tải từ CDN ở các giao diện sử dụng.
 - PHPMailer được vendored tại `vendor/PHPMailer/` cho email OTP.
 - Google OAuth 2.0, VNPay (cấu hình sandbox) và Cloudinary signed upload.
 
-## Yêu cầu
+## Requirements
 
-- XAMPP (Apache và MySQL/MariaDB).
+- XAMPP để chạy Apache/PHP (không dùng MySQL/MariaDB bên trong XAMPP khi chọn Docker MySQL).
+- Oracle MySQL 8.4.x chạy bằng Docker hoặc cài trực tiếp trên Windows.
+- Git và trình duyệt hiện đại.
 - PHP 7.4 trở lên với các extension được ứng dụng sử dụng như `mysqli`, `curl`, `openssl`, `json` và `mbstring`.
-- Trình duyệt hiện đại bật JavaScript.
 
-## Cài đặt với XAMPP
+XAMPP chỉ là môi trường Apache/PHP trong setup hiện tại. Database server chính thức của project là Oracle MySQL 8.4.x; project không sử dụng MariaDB.
+
+## Database Setup
+
+Database mặc định là `bookstore`.
+
+Trong `.env`, cấu hình local tối thiểu:
+
+```dotenv
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=<your_mysql_password>
+DB_NAME=bookstore
+```
+
+Không commit `.env` và không ghi password thật vào tài liệu.
+
+### Cách 1 — Docker Oracle MySQL
+
+Ví dụ chạy Oracle MySQL 8.4.x với container `mysql-shop` và port `3306`:
+
+```powershell
+docker run --name mysql-shop `
+  -e MYSQL_ROOT_PASSWORD=<your_password> `
+  -p 3306:3306 `
+  -d mysql:8.4
+```
+
+Password dùng khi tạo container phải khớp với `DB_PASS` trên từng máy. Sau đó tạo database và import seed:
+
+```text
+mysql -h localhost -P 3306 -u root -p -e "CREATE DATABASE bookstore CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;"
+mysql -h localhost -P 3306 -u root -p --default-character-set=utf8mb4 bookstore < database/bookstore.sql
+```
+
+### Cách 2 — Oracle MySQL cài trực tiếp Windows
+
+1. Cài Oracle MySQL 8.4.x.
+2. Khởi động MySQL service.
+3. Tạo database `bookstore`.
+4. Import `database/bookstore.sql` với `--default-character-set=utf8mb4`.
+5. Cấu hình `.env` theo host, port, user, password của máy.
+
+Hai cách chạy dùng cùng source nếu host là `localhost`, port là `3306`, database là `bookstore` và credentials hợp lệ.
+
+## Cài đặt project
 
 1. Đặt project tại document root của Apache, mặc định:
 
@@ -45,13 +91,8 @@ Các liên kết “Tin tức” và “Review sách” trên header hiện là 
    Copy-Item .env.example .env
    ```
 
-3. Mở XAMPP Control Panel và khởi động Apache, MySQL.
-4. Tạo database `bookstore`, sau đó import `database/bookstore.sql` bằng phpMyAdmin hoặc lệnh MySQL tương đương:
-
-   ```text
-   mysql -u root bookstore < database/bookstore.sql
-   ```
-
+3. Khởi động Oracle MySQL 8.4.x bằng Docker hoặc Windows service.
+4. Khởi động Apache trong XAMPP. Không cần khởi động MySQL/MariaDB trong XAMPP nếu đang dùng MySQL bên ngoài XAMPP.
 5. Truy cập:
 
    ```text
@@ -59,6 +100,10 @@ Các liên kết “Tin tức” và “Review sách” trên header hiện là 
    ```
 
 File SQL cung cấp schema và seed data cho các thực thể người dùng/vai trò, danh mục, sản phẩm/hình ảnh, giỏ hàng, đơn hàng, thanh toán, giao hàng, voucher, khuyến mãi và review.
+
+## phpMyAdmin và công cụ quản lý database
+
+phpMyAdmin chỉ là GUI quản lý database, không phải database server và không bắt buộc phải sử dụng. Có thể dùng phpMyAdmin, DBeaver, MySQL Workbench hoặc MySQL CLI. Nếu dùng phpMyAdmin của XAMPP để quản lý Oracle MySQL Docker, server phải trỏ tới `localhost:3306` và dùng credentials của Oracle MySQL.
 
 ## Cấu hình `.env`
 
@@ -148,3 +193,19 @@ Các trang `admin/index.php`, `users.php`, `products.php`, `categories.php`, `or
 - Dùng `url()` và `asset()` thay vì thêm đường dẫn runtime khác.
 - Không ghi secret vào source/README, không commit `.env`.
 - Khi kiểm thử thao tác tạo đơn, thanh toán hoặc thay đổi dữ liệu, dùng database phát triển và dữ liệu test riêng; không tự ý sửa seed production.
+
+## Troubleshooting
+
+- **Access denied for root:** kiểm tra `DB_USER` và `DB_PASS` trong `.env`.
+- **Can't connect to MySQL server:** kiểm tra container/service đang chạy và port `3306` có được publish đúng không.
+- **Port 3306 already in use:** chỉ để một MySQL server bind port này; kiểm tra các dịch vụ MySQL/MariaDB khác.
+- **Tiếng Việt hiển thị dấu `?`:** database, import và PHP connection phải dùng `utf8mb4`; không truyền file SQL qua pipeline có thể decode/re-encode encoding.
+- **phpMyAdmin không kết nối được:** kiểm tra phpMyAdmin đang trỏ tới đúng Oracle MySQL server, không phải một server khác trong XAMPP.
+
+## Team Setup
+
+- Mỗi thành viên sử dụng database local riêng.
+- Git chỉ đồng bộ source và `database/bookstore.sql`, không đồng bộ database đang chạy.
+- Mỗi thành viên phải import `database/bookstore.sql` vào Oracle MySQL local của mình.
+- Có thể chọn Docker hoặc MySQL cài trực tiếp, miễn là các thông số kết nối khớp.
+- `.env` là cấu hình local và không được commit.
