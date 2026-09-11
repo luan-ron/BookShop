@@ -81,12 +81,10 @@ Các form login, register và quên mật khẩu hiện không có token CSRF ri
 
 ## Cấu hình cần thiết
 
-Authentication dùng connection `mysqli` từ `config/db.php`, kết nối tới Oracle MySQL 8.4.x. Database mặc định là `bookstore`; host/port thường là `localhost:3306`. Có thể chạy MySQL bằng Docker hoặc Windows service, miễn credentials trong `.env` đúng.
-
 ```dotenv
 DB_HOST=localhost
 DB_USER=root
-DB_PASS=<your_mysql_password>
+DB_PASS=
 DB_NAME=bookstore
 APP_ENV=local
 AUTH_JWT_SECRET=
@@ -98,8 +96,6 @@ SMTP_FROM_EMAIL=
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 ```
-
-Không dùng MariaDB cho setup chính thức của project và không ghi password, JWT secret, OAuth secret hoặc SMTP password thật vào tài liệu.
 
 `AUTH_JWT_SECRET` phải là giá trị bí mật riêng của môi trường chạy. SMTP và Google OAuth có thể để trống khi không dùng các luồng tương ứng; không đưa giá trị thật vào README.
 
