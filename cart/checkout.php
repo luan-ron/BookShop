@@ -16,6 +16,9 @@ if (empty($cart)) {
 
 $pageTitle = 'Thanh toán đơn hàng';
 $extraCss = ['css/cart.css'];
+$checkoutError = $_SESSION['error'] ?? '';
+$checkoutWarning = $_SESSION['warning'] ?? '';
+unset($_SESSION['error'], $_SESSION['warning']);
 
 if (empty($_SESSION['checkout_csrf_token'])) {
     $_SESSION['checkout_csrf_token'] = bin2hex(random_bytes(32));
@@ -176,6 +179,10 @@ if (isset($_SESSION['user'])) {
         --color-accent: rgb(0, 169, 242);
     }
 
+    .checkout-page .checkout-alert {
+        margin: var(--spacing-md) 0 var(--spacing-lg);
+    }
+
     .checkout-page .breadcrumbs a:hover,
     .checkout-page .breadcrumbs li:last-child,
     .checkout-page .order-title i,
@@ -268,6 +275,27 @@ if (isset($_SESSION['user'])) {
         <li><a href="<?= url('cart/cart.php') ?>">Giỏ hàng</a></li>
         <li>Thanh toán</li>
     </ul>
+
+    <?php if ($checkoutError): ?>
+        <div class="alert alert--error checkout-alert" role="alert">
+            <svg class="alert__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span><?= htmlspecialchars($checkoutError) ?></span>
+        </div>
+    <?php endif; ?>
+    <?php if ($checkoutWarning): ?>
+        <div class="alert alert--warning checkout-alert" role="status">
+            <svg class="alert__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M10.3 2.9 1.8 17a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 2.9a2 2 0 0 0-3.4 0Z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span><?= htmlspecialchars($checkoutWarning) ?></span>
+        </div>
+    <?php endif; ?>
 
     <div class="order-title-section">
         <h1 class="order-title"><i class="fa-regular fa-credit-card" style="margin-right: 10px;"></i> Tiến hành đặt nhận hàng & Thanh toán</h1>
