@@ -54,6 +54,42 @@ if (!empty($cart)) {
         $cartProducts[] = $row;
     }
     $stmt->close();
+
+    // Dọn các ProductID còn trong session nhưng không còn tồn tại trong database.
+    $loadedProductIds = array_map('intval', array_column($cartProducts, 'ProductID'));
+    $staleProductIds = array_values(array_diff(array_map('intval', $productIds), $loadedProductIds));
+    if (!empty($staleProductIds)) {
+        foreach ($staleProductIds as $staleProductId) {
+            unset($_SESSION['cart'][$staleProductId]);
+        }
+
+        if (isset($_SESSION['user']) && !empty($_SESSION['user']['id'])) {
+            $customerId = (int) $_SESSION['user']['id'];
+            $cartStmt = $conn->prepare("SELECT CartID FROM cart WHERE CustomerID = ? AND Status = 'Active' LIMIT 1");
+            if ($cartStmt) {
+                $cartStmt->bind_param('i', $customerId);
+                $cartStmt->execute();
+                $cartResult = $cartStmt->get_result();
+                $activeCart = $cartResult->fetch_assoc();
+                $cartStmt->close();
+
+                if ($activeCart) {
+                    $deleteStmt = $conn->prepare("DELETE FROM cart_detail WHERE CartID = ? AND ProductID = ?");
+                    if ($deleteStmt) {
+                        foreach ($staleProductIds as $staleProductId) {
+                            $cartId = (int) $activeCart['CartID'];
+                            $deleteStmt->bind_param('ii', $cartId, $staleProductId);
+                            $deleteStmt->execute();
+                        }
+                        $deleteStmt->close();
+                    }
+                }
+            }
+        }
+
+        $staleCount = count($staleProductIds);
+        $_SESSION['warning'] = $staleCount . ' sản phẩm trong giỏ hàng không còn tồn tại và đã được xóa khỏi giỏ hàng.';
+    }
 }
 ?>
 

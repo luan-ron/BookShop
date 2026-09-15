@@ -172,6 +172,16 @@ try {
     
     $finalTotalAmount = max(0, $totalAmount + $shippingFee - $voucherDiscount);
 
+    // VNPay chỉ chấp nhận giao dịch từ 5.000đ; chặn trước mọi side effect của order.
+    if ($paymentMethod === 'VNPAY' && $finalTotalAmount < 5000) {
+        $conn->rollback();
+        $_SESSION['error'] = $finalTotalAmount <= 0
+            ? 'Đơn hàng có tổng tiền 0đ không thể thanh toán qua VNPay.'
+            : 'Đơn hàng phải có giá trị tối thiểu 5.000đ để thanh toán qua VNPay.';
+        header('Location: ' . url('cart/checkout.php'));
+        exit;
+    }
+
     // 2.5 Cập nhật Số điện thoại và Địa chỉ vào bảng user cho thành viên đăng nhập
     if ($customerId !== null) {
         $stmtUser = $conn->prepare("UPDATE `user` SET `Phone` = ?, `Address` = ? WHERE `CustomerID` = ?");
