@@ -875,6 +875,7 @@ include '../includes/header.php';
     qtyInput.addEventListener('input', syncMinusButton);
     qtyInput.addEventListener('change', syncMinusButton);
     syncMinusButton();
+    window.addEventListener('pageshow', syncMinusButton);
 
     // Tự động cuộn mượt và focus vào ô bình luận khi url có #review-form-section
     window.addEventListener('DOMContentLoaded', () => {

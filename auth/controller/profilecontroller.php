@@ -50,6 +50,27 @@ class ProfileController
             ];
         }
 
+        $currentUser = $this->customerModel->getUserProfile($userId);
+        $currentValues = [
+            'full_name' => trim($currentUser['full_name'] ?? ''),
+            'email' => trim($currentUser['email'] ?? ''),
+            'phone' => trim($currentUser['phone'] ?? ''),
+            'address' => trim($currentUser['address'] ?? '')
+        ];
+        $submittedValues = [
+            'full_name' => trim($data['full_name'] ?? ''),
+            'email' => trim($data['email'] ?? ''),
+            'phone' => trim($data['phone'] ?? ''),
+            'address' => trim($data['address'] ?? '')
+        ];
+
+        if ($currentUser && $currentValues === $submittedValues) {
+            return [
+                'success' => false,
+                'message' => 'Không có thông tin nào thay đổi.'
+            ];
+        }
+
         // Bước 3: Cập nhật thông tin
         $updateData = [
             'username' => $data['username'],
@@ -140,10 +161,9 @@ class ProfileController
         }
 
         // Validate phone (optional)
-        if (!empty($data['phone'])) {
-            if (!preg_match('/^[0-9]{10,11}$/', $data['phone'])) {
+        $phone = trim((string) ($data['phone'] ?? ''));
+        if ($phone !== '' && !preg_match('/^[0-9]{10,11}$/D', $phone)) {
                 return ['valid' => false, 'message' => 'Số điện thoại không hợp lệ (10-11 số).'];
-            }
         }
 
         return ['valid' => true, 'message' => ''];

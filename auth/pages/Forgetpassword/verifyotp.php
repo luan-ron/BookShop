@@ -221,12 +221,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         <form action="verifyotp.php" method="GET">
             <div class="otp-inputs">
-                <input type="text" maxlength="1" name="otp1" value="1">
-                <input type="text" maxlength="1" name="otp2" value="2">
-                <input type="text" maxlength="1" name="otp3" value="3">
-                <input type="text" maxlength="1" name="otp4" value="4">
-                <input type="text" maxlength="1" name="otp5" value="5">
-                <input type="text" maxlength="1" name="otp6" value="6">
+                <input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" name="otp1">
+                <input type="text" inputmode="numeric" maxlength="1" name="otp2">
+                <input type="text" inputmode="numeric" maxlength="1" name="otp3">
+                <input type="text" inputmode="numeric" maxlength="1" name="otp4">
+                <input type="text" inputmode="numeric" maxlength="1" name="otp5">
+                <input type="text" inputmode="numeric" maxlength="1" name="otp6">
             </div>
 
             <div class="resend-link">
@@ -241,6 +241,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         </form>
 
     </div>
+
+<script>
+    (() => {
+        const inputs = Array.from(document.querySelectorAll('.otp-inputs input'));
+        if (!inputs.length) return;
+
+        const focusInput = (index) => {
+            if (index >= 0 && index < inputs.length) inputs[index].focus();
+        };
+
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', () => {
+                const digit = input.value.replace(/\D/g, '').slice(-1);
+                input.value = digit;
+                if (digit) focusInput(index + 1);
+            });
+
+            input.addEventListener('keydown', (event) => {
+                if (event.key === 'Backspace' && !input.value) {
+                    event.preventDefault();
+                    focusInput(index - 1);
+                }
+            });
+
+            input.addEventListener('paste', (event) => {
+                event.preventDefault();
+                const pasted = (event.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
+                if (!pasted) return;
+                pasted.slice(0, inputs.length - index).split('').forEach((digit, offset) => {
+                    inputs[index + offset].value = digit;
+                });
+                focusInput(Math.min(index + pasted.length, inputs.length - 1));
+            });
+        });
+    })();
+</script>
 
 </body>
 

@@ -21,6 +21,9 @@ $userId = $sessionUser['id'];
 $error = '';
 $success = $_SESSION['success'] ?? '';
 unset($_SESSION['success']);
+$activeTab = in_array($_GET['tab'] ?? 'overview', ['overview', 'personal', 'password'], true)
+    ? ($_GET['tab'] ?? 'overview')
+    : 'overview';
 
 // Load user data từ DB
 $profileController = new ProfileController();
@@ -42,6 +45,8 @@ if (!$userData) {
 
 // Xử lý POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $formType = $_POST['form_type'] ?? 'profile_update';
+    $activeTab = $formType === 'password_change' ? 'password' : 'personal';
     $data = [
         'username' => trim($_POST['username'] ?? ''),
         'full_name' => trim($_POST['full_name'] ?? ''),
@@ -53,18 +58,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'confirm_password' => $_POST['confirm_password'] ?? ''
     ];
 
-    // Kiểm tra xem có đổi mật khẩu không
-    if (!empty($data['current_password']) || !empty($data['new_password']) || !empty($data['confirm_password'])) {
-        // Có đổi mật khẩu
+    if ($formType === 'password_change') {
         $result = $profileController->changePassword(
             $userId,
             $data['current_password'],
             $data['new_password'],
             $data['confirm_password']
         );
-    } else {
-        // Chỉ cập nhật thông tin cá nhân
+    } else if ($formType === 'profile_update') {
         $result = $profileController->updateProfile($userId, $data);
+    } else {
+        $result = ['success' => false, 'message' => 'Yêu cầu không hợp lệ. Vui lòng thử lại.'];
     }
 
     if ($result['success']) {
@@ -78,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_SESSION['admin']) && $_SESSION['admin']['id'] == $userId) {
             $_SESSION['admin'] = array_merge($_SESSION['admin'], $userData);
         }
-        header('Location: /BookShop/auth/pages/profile.php');
+        header('Location: /BookShop/auth/pages/profile.php?tab=' . $activeTab);
         exit;
     } else {
         $error = $result['message'];
@@ -341,13 +345,12 @@ include '../../includes/header.php';
     .profile-page .profile-btn-container {
         display: flex;
         justify-content: flex-end;
+        margin-top: var(--spacing-lg);
     }
 
     .profile-page .profile-alert {
         margin-bottom: var(--spacing-lg);
     }
-
-    .profile-page #profile-save-actions[hidden] { display: none !important; }
 
     .profile-page [data-profile-section][hidden] { display: none; }
     .profile-page .profile-overview-greeting { margin: -8px 0 var(--spacing-lg); color: var(--color-text-light); }
@@ -481,10 +484,10 @@ include '../../includes/header.php';
             <!-- Left Sidebar -->
             <aside class="card profile-sidebar">
                 <ul class="profile-nav-menu">
-                    <li class="profile-nav-item active" data-profile-tab="overview">
+                    <li class="profile-nav-item <?= $activeTab === 'overview' ? 'active' : '' ?>" data-profile-tab="overview">
                         <a href="#profile-overview"><i class="fa-solid fa-chart-pie" aria-hidden="true"></i> Tổng quan</a>
                     </li>
-                    <li class="profile-nav-item" data-profile-tab="personal">
+                    <li class="profile-nav-item <?= $activeTab === 'personal' ? 'active' : '' ?>" data-profile-tab="personal">
                         <a href="#profile-personal">
                             <i class="fa-solid fa-user" aria-hidden="true"></i>
                             Thông tin cá nhân
@@ -496,7 +499,7 @@ include '../../includes/header.php';
                             Đơn hàng của tôi
                         </a>
                     </li>
-                    <li class="profile-nav-item" data-profile-tab="password">
+                    <li class="profile-nav-item <?= $activeTab === 'password' ? 'active' : '' ?>" data-profile-tab="password">
                         <a href="#profile-password"><i class="fa-solid fa-lock" aria-hidden="true"></i> Đổi mật khẩu</a>
                     </li>
                     <?php if (strtolower($sessionUser['role'] ?? '') === 'admin'): ?>
@@ -529,7 +532,7 @@ include '../../includes/header.php';
             <!-- Right Content Area -->
             <div class="profile-content-area">
 
-                <section class="card profile-card profile-overview" id="profile-overview" data-profile-section="overview">
+                <section class="card profile-card profile-overview" id="profile-overview" data-profile-section="overview" <?= $activeTab !== 'overview' ? 'hidden' : '' ?>>
                     <h2 class="profile-card-title">Tổng quan</h2>
                     <p class="profile-overview-greeting">Xin chào, <strong><?php echo htmlspecialchars($userData['full_name'] ?? 'bạn'); ?></strong>!</p>
                     <div class="profile-overview-grid">
@@ -544,9 +547,10 @@ include '../../includes/header.php';
                 </section>
 
                 <form action="/BookShop/auth/pages/profile.php" method="POST" class="form profile-form">
+                    <input type="hidden" name="form_type" value="profile_update">
 
                     <!-- Personal Info Card -->
-                    <section class="card profile-card" id="profile-personal" data-profile-section="personal" hidden>
+                    <section class="card profile-card" id="profile-personal" data-profile-section="personal" <?= $activeTab !== 'personal' ? 'hidden' : '' ?>>
                         <h2 class="profile-card-title">Thông tin cá nhân</h2>
 
                         <div class="form-grid">
@@ -572,7 +576,8 @@ include '../../includes/header.php';
                             <div class="form-group">
                                 <label class="form-label" for="phone">Số điện thoại</label>
                                 <input type="tel" id="phone" name="phone" class="form-control"
-                                    value="<?php echo htmlspecialchars($userData['phone'] ?? ''); ?>">
+                                    value="<?php echo htmlspecialchars($userData['phone'] ?? ''); ?>"
+                                    inputmode="numeric" minlength="10" maxlength="11" pattern="[0-9]{10,11}">
                             </div>
 
                             <div class="form-group form-group-full">
@@ -581,10 +586,17 @@ include '../../includes/header.php';
                                     placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành phố"><?php echo htmlspecialchars($userData['address'] ?? ''); ?></textarea>
                             </div>
                         </div>
+                        <div class="profile-btn-container">
+                            <button type="submit" class="btn btn--primary">Lưu thay đổi</button>
+                        </div>
                     </section>
+                </form>
+
+                <form action="/BookShop/auth/pages/profile.php" method="POST" class="form profile-form">
+                    <input type="hidden" name="form_type" value="password_change">
 
                     <!-- Change Password Card -->
-                    <section class="card profile-card" id="profile-password" data-profile-section="password" hidden>
+                    <section class="card profile-card" id="profile-password" data-profile-section="password" <?= $activeTab !== 'password' ? 'hidden' : '' ?>>
                         <h2 class="profile-card-title">Đổi mật khẩu</h2>
 
                         <div class="form-grid">
@@ -623,12 +635,10 @@ include '../../includes/header.php';
                                 </div>
                             </div>
                         </div>
+                        <div class="profile-btn-container">
+                            <button type="submit" class="btn btn--primary">Lưu thay đổi</button>
+                        </div>
                     </section>
-
-                    <div class="profile-btn-container" id="profile-save-actions" hidden>
-                        <button type="submit" class="btn btn--primary">Lưu thay đổi</button>
-                    </div>
-
                 </form>
 
             </div>
@@ -661,8 +671,6 @@ include '../../includes/header.php';
         const target = tab.dataset.profileTab;
         profileSections.forEach(section => { section.hidden = section.dataset.profileSection !== target; });
         profileTabs.forEach(item => item.classList.toggle('active', item === tab));
-        const saveActions = document.getElementById('profile-save-actions');
-        if (saveActions) saveActions.hidden = target === 'overview';
     }));
     </script>
 <?php include '../../includes/footer.php'; ?>

@@ -1029,17 +1029,24 @@ if (!empty($cart)) {
         if (!input || !form) return;
 
         const minusButton = form.querySelector('.cart-qty-btn');
+        const plusButton = form.querySelectorAll('.cart-qty-btn')[1];
         const value = parseInt(input.value, 10) || 1;
         const isMinimum = value <= 1;
+        const maxStock = parseInt(input.max, 10) || 99;
         minusButton.disabled = isMinimum;
         minusButton.setAttribute('aria-disabled', isMinimum ? 'true' : 'false');
+        if (plusButton) {
+            const isMaximum = value >= maxStock;
+            plusButton.disabled = isMaximum;
+            plusButton.setAttribute('aria-disabled', isMaximum ? 'true' : 'false');
+        }
     }
 
     function setQtyLocked(productId, locked) {
         const form = document.getElementById('qty-form-' + productId);
         if (!form) return;
         form.querySelectorAll('.cart-qty-btn').forEach((button) => {
-            button.disabled = locked || (button.textContent.trim() === '-' && parseInt(form.querySelector('.cart-qty-input')?.value || '1', 10) <= 1);
+            button.disabled = locked;
             button.setAttribute('aria-busy', locked ? 'true' : 'false');
         });
         form.querySelector('.cart-qty-input').readOnly = locked;
