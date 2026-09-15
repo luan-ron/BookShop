@@ -26,22 +26,47 @@ $couponCount = $res ? (int)$res->fetch_row()[0] : 0;
 $res = $conn->query("SELECT SUM(TotalAmount) FROM `order` WHERE OrderStatus = 'Delivered'");
 $revenue = $res ? (float)$res->fetch_row()[0] : 0.0;
 
-// Thống kê doanh thu và đơn hàng theo tháng (cho cả năm)
-$monthlyStats = array_fill(1, 12, ['orders' => 0, 'revenue' => 0]);
-$resMonthly = $conn->query("
-  SELECT MONTH(OrderDate) AS Month, COUNT(*) AS OrderCount, SUM(TotalAmount) AS TotalRevenue 
-  FROM `order` 
-  GROUP BY MONTH(OrderDate)
+// Thống kê cố định 12 tháng của năm hiện tại, giống range cũ của dashboard.
+$chartYear = (int) date('Y');
+$monthlyStats = array_fill(1, 12, ['orders' => 0, 'revenue' => 0.0]);
+$resMonthlyOrders = $conn->query("
+  SELECT YEAR(OrderDate) AS OrderYear, MONTH(OrderDate) AS OrderMonth, COUNT(*) AS OrderCount
+  FROM `order`
+  WHERE YEAR(OrderDate) = {$chartYear}
+  GROUP BY YEAR(OrderDate), MONTH(OrderDate)
+  ORDER BY YEAR(OrderDate), MONTH(OrderDate)
 ");
-if ($resMonthly) {
-  while ($row = $resMonthly->fetch_assoc()) {
-    $m = (int)$row['Month'];
-    if ($m >= 1 && $m <= 12) {
-      $monthlyStats[$m]['orders'] = (int)$row['OrderCount'];
-      $monthlyStats[$m]['revenue'] = (float)($row['TotalRevenue'] ?? 0);
+if ($resMonthlyOrders) {
+  while ($row = $resMonthlyOrders->fetch_assoc()) {
+    $month = (int)$row['OrderMonth'];
+    if ($month >= 1 && $month <= 12) {
+      $monthlyStats[$month]['orders'] = (int)$row['OrderCount'];
     }
   }
 }
+
+// Doanh thu theo tháng: chỉ tính các đơn đã Delivered, đồng bộ với KPI doanh thu.
+$resMonthlyRevenue = $conn->query("
+  SELECT YEAR(OrderDate) AS OrderYear, MONTH(OrderDate) AS OrderMonth,
+         SUM(TotalAmount) AS TotalRevenue
+  FROM `order`
+  WHERE OrderStatus = 'Delivered' AND YEAR(OrderDate) = {$chartYear}
+  GROUP BY YEAR(OrderDate), MONTH(OrderDate)
+  ORDER BY YEAR(OrderDate), MONTH(OrderDate)
+");
+if ($resMonthlyRevenue) {
+  while ($row = $resMonthlyRevenue->fetch_assoc()) {
+    $month = (int)$row['OrderMonth'];
+    if ($month >= 1 && $month <= 12) {
+      $monthlyStats[$month]['revenue'] = (float)($row['TotalRevenue'] ?? 0);
+    }
+  }
+}
+$monthlyLabels = array_map(function ($month) use ($chartYear) {
+  return sprintf('%02d/%04d', $month, $chartYear);
+}, range(1, 12));
+$monthlyOrders = array_column($monthlyStats, 'orders');
+$monthlyRevenue = array_column($monthlyStats, 'revenue');
 
 // Thống kê trạng thái đơn hàng (ánh xạ sang tiếng Việt)
 $statusMapping = [
@@ -106,8 +131,8 @@ if ($resCatStats) {
             <h2 class="card__title">Doanh thu theo tháng</h2>
             <canvas
               data-chart="bar"
-              data-labels='<?= h(json_encode(array_map(function ($m) { return 'T' . $m; }, range(1, 12)), JSON_UNESCAPED_UNICODE)) ?>'
-              data-values='<?= h(json_encode(array_column($monthlyStats, 'revenue'), JSON_UNESCAPED_UNICODE)) ?>'
+              data-labels='<?= h(json_encode($monthlyLabels, JSON_UNESCAPED_UNICODE)) ?>'
+              data-values='<?= h(json_encode($monthlyRevenue, JSON_UNESCAPED_UNICODE)) ?>'
               data-color="rgb(0,169,242)"
               data-unit="đ">
             </canvas>
@@ -119,8 +144,8 @@ if ($resCatStats) {
             <h2 class="card__title">Đơn hàng theo tháng</h2>
             <canvas
               data-chart="line"
-              data-labels='<?= h(json_encode(array_map(function ($m) { return 'T' . $m; }, range(1, 12)), JSON_UNESCAPED_UNICODE)) ?>'
-              data-values='<?= h(json_encode(array_column($monthlyStats, 'orders'), JSON_UNESCAPED_UNICODE)) ?>'
+              data-labels='<?= h(json_encode($monthlyLabels, JSON_UNESCAPED_UNICODE)) ?>'
+              data-values='<?= h(json_encode($monthlyOrders, JSON_UNESCAPED_UNICODE)) ?>'
               data-color="#f9b234"
               data-unit="đơn">
             </canvas>
