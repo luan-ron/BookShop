@@ -796,7 +796,7 @@ if (!empty($cart)) {
                         <form action="update.php" method="POST" class="cart-delete-form">
                             <input type="hidden" name="product_id" value="<?= $item['ProductID'] ?>">
                             <input type="hidden" name="action" value="delete">
-                            <button type="submit" class="delete-cart-btn" title="Xóa khỏi giỏ" onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?')">
+                            <button type="submit" class="delete-cart-btn" title="Xóa khỏi giỏ">
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>
                         </form>
@@ -890,6 +890,129 @@ if (!empty($cart)) {
         </div>
     <?php endif; ?>
 </main>
+
+<div class="cart-confirm-modal" data-cart-confirm-modal hidden>
+    <div class="cart-confirm-modal__backdrop" data-cart-confirm-cancel></div>
+    <section class="cart-confirm-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="cart-confirm-title" aria-describedby="cart-confirm-message">
+        <button type="button" class="cart-confirm-modal__close" aria-label="Đóng" data-cart-confirm-cancel>
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+        <div class="cart-confirm-modal__icon" aria-hidden="true"><i class="fa-solid fa-trash-can"></i></div>
+        <h2 id="cart-confirm-title">Xác nhận xóa</h2>
+        <p id="cart-confirm-message">Bạn có chắc muốn xóa sản phẩm này?</p>
+        <div class="cart-confirm-modal__actions">
+            <button type="button" class="cart-confirm-modal__button cart-confirm-modal__button--cancel" data-cart-confirm-cancel>Hủy</button>
+            <button type="button" class="cart-confirm-modal__button cart-confirm-modal__button--delete" data-cart-confirm-delete>Xóa</button>
+        </div>
+    </section>
+</div>
+
+<style>
+    .cart-confirm-modal[hidden] { display: none; }
+    .cart-confirm-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1200;
+        display: grid;
+        place-items: center;
+        padding: 20px;
+    }
+    .cart-confirm-modal__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(15, 23, 42, .58);
+    }
+    .cart-confirm-modal__dialog {
+        position: relative;
+        width: min(100%, 420px);
+        padding: 30px 28px 26px;
+        border: 1px solid var(--color-border);
+        border-radius: 16px;
+        background: var(--color-surface, #fff);
+        box-shadow: 0 20px 55px rgba(15, 23, 42, .24);
+        text-align: center;
+    }
+    .cart-confirm-modal__close {
+        position: absolute;
+        top: 12px;
+        right: 14px;
+        width: 32px;
+        height: 32px;
+        border: 0;
+        border-radius: 50%;
+        background: transparent;
+        color: var(--color-text-light, #64748b);
+        cursor: pointer;
+        font-size: 1rem;
+    }
+    .cart-confirm-modal__close:hover,
+    .cart-confirm-modal__close:focus-visible { background: var(--color-background, #f4f9fc); color: var(--color-text, #172033); }
+    .cart-confirm-modal__icon {
+        display: grid;
+        place-items: center;
+        width: 52px;
+        height: 52px;
+        margin: 0 auto 16px;
+        border-radius: 50%;
+        background: rgba(230, 57, 70, .1);
+        color: var(--color-error, #e63946);
+        font-size: 1.3rem;
+    }
+    .cart-confirm-modal__dialog h2 { margin: 0 0 8px; color: var(--color-text, #172033); font-size: 1.35rem; }
+    .cart-confirm-modal__dialog p { margin: 0; color: var(--color-text-light, #64748b); line-height: 1.55; }
+    .cart-confirm-modal__actions { display: flex; justify-content: center; gap: 10px; margin-top: 24px; }
+    .cart-confirm-modal__button { min-width: 100px; padding: 10px 18px; border: 1px solid transparent; border-radius: 8px; cursor: pointer; font: inherit; font-weight: 700; }
+    .cart-confirm-modal__button--cancel { border-color: var(--color-border, #dce8ef); background: var(--color-surface, #fff); color: var(--color-text, #172033); }
+    .cart-confirm-modal__button--delete { background: var(--color-error, #e63946); color: #fff; }
+    .cart-confirm-modal__button--cancel:hover,
+    .cart-confirm-modal__button--cancel:focus-visible { background: var(--color-background, #f4f9fc); }
+    .cart-confirm-modal__button--delete:hover,
+    .cart-confirm-modal__button--delete:focus-visible { filter: brightness(.92); }
+    @media (max-width: 480px) {
+        .cart-confirm-modal__dialog { padding: 28px 20px 22px; }
+        .cart-confirm-modal__actions { gap: 8px; }
+        .cart-confirm-modal__button { flex: 1; min-width: 0; }
+    }
+</style>
+
+<script>
+    (function () {
+        const modal = document.querySelector('[data-cart-confirm-modal]');
+        if (!modal) return;
+        const deleteButton = modal.querySelector('[data-cart-confirm-delete]');
+        let pendingForm = null;
+
+        function closeModal() {
+            modal.hidden = true;
+            pendingForm = null;
+        }
+
+        document.querySelectorAll('.cart-delete-form').forEach((form) => {
+            form.addEventListener('submit', (event) => {
+                if (pendingForm === form) return;
+                event.preventDefault();
+                pendingForm = form;
+                modal.hidden = false;
+                deleteButton.focus();
+            });
+        });
+
+        modal.querySelectorAll('[data-cart-confirm-cancel]').forEach((button) => {
+            button.addEventListener('click', closeModal);
+        });
+
+        deleteButton.addEventListener('click', () => {
+            if (!pendingForm) return;
+            const form = pendingForm;
+            closeModal();
+            form.submit();
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !modal.hidden) closeModal();
+        });
+    }());
+</script>
 
 <?php include '../includes/footer.php'; ?>
 
